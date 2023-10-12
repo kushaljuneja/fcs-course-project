@@ -1,0 +1,43 @@
+{% extends "../sub_base.html" %}
+{% load crispy_forms_tags %}
+{% block sub_content %}
+
+{% if otp %}
+<form class="account-form" action="." method="post">
+  {% csrf_token %}
+  <fieldset class='form-group'>
+    <legend class='border-bottom mb-4'>Verify your Email</legend>
+    <input type="hidden" name="usr" value="{{usr.user_name}}">
+   
+    <div class="input-group mb-3">
+      <div class="input-group-prepend">
+        <span class="input-group-text" id="basic-addon1">OTP</span>
+      </div>
+      <input type="text" class="form-control" placeholder="Enter your OTP" aria-label="Username" aria-describedby="basic-addon1" name='otp'>
+    </div>
+
+   
+    <button class="btn btn-primary btn-block py-2 mb-4 mt-5 fw500 w-100" type="submit">Verify</button>
+    <!--<small class="float-right text-muted"><i><a href="#" class="text-dark" 
+      onclick="ReSendOTP('{{usr.username}}', 'resendOTPmess')"><i id="resendOTPmess">Resend</i> OTP</a></small>-->
+  </fieldset>
+</form>
+{% else %}
+<form class="account-form" action="." method="post">
+  {% csrf_token %}
+  <fieldset class='form-group'>
+    <legend class='border-bottom mb-4'>Create an Account</legend>
+
+    {{ form|crispy }}
+
+    <script src='https://www.google.com/recaptcha/api.js'></script>
+    <div class="g-recaptcha" data-sitekey="6LfrWOccAAAAAKkaZsdEo62zYqpAKm_T92G8YG04"></div>
+    <button class="btn btn-primary btn-block py-2 mb-4 mt-5 fw500 w-100" type="submit">Register</button>
+  </fieldset>
+</form>
+{% endif %}
+<p class="text-center">
+  <a href="{% url 'two_factor:login' %}">Already have an account?</a>
+</p>
+
+{% endblock %}

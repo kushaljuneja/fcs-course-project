@@ -1,0 +1,43 @@
+{% extends "base.html" %}
+{% block content %}
+
+<div class="container">
+    <div class="container">
+        <div class="row">
+            <div class="album py-5">
+                <!-- check if user == verified_seller -->
+                {% if user.user_type == 3 %} 
+                <div class="col-12">
+                    <h1 class="h2">Your Products</h1>
+                    <p>Click on the product to edit it.</p>
+                    {% if not products %}
+                    <div class="col-12">You have not added any product yet. Try adding a new Product.</div>
+                    {% else %}
+                    <div class="row row-cols-1 row-cols-sm-2 row-cols-md-5 g-3">
+                        {% for product in products %}
+                        <div class="col">
+                            <div class="card border-0">
+                                <img class="img-fluid" alt="Responsive image" src="{{ product.image.url }}">
+                                <div class="card-body px-0">
+                                    <p class="card-text">
+                                        <a href="{% url 'seller:edit_product' product.id %}">{{ product.title }}</a>
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                        {% endfor %}
+                    </div>
+                    {% endif %}
+                </div>
+                {% else %}
+                <div class="col-12">
+                    <h1 class="h2">What da hell are you doing here ?</h1>
+                    <p>You are not a seller :/</p>
+                </div>
+                {% endif %}
+
+            </div>
+        </div>
+    </div>
+
+    {% endblock %}

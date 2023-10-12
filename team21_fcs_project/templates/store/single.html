@@ -1,0 +1,49 @@
+{% extends "../base.html" %}
+{% load social_share %}
+{% load static %} 
+{% block content %}
+<h1>Title: <em>{{ product.title }}</em></h1>
+
+<p><strong>Seller:</strong> <mark>{{ product.created_by }}</mark></p>
+<p><strong>Category:</strong> <a href="{{ product.category.get_absolute_url }}">{{ product.category }}</a></p>
+<p><strong>Price:</strong> <mark>₹ {{ product.price }}</mark></p>
+
+<div style="margin-left:20px;margin-top:20px">
+  <h4>Images</h4>
+  <img class="img-fluid" width="200px" alt="Responsive image" src="{{ product.image.url }}">
+  <img class="img-fluid" width="200px" alt="Responsive image" src="{{ product.image_alternate.url }}">
+</div>
+</div>
+
+<div>
+  <label for="quantity">Quantity:</label>
+  <input type="number" id="quantity" name="quantity" min="1" value="1">
+</div>
+<br>
+<form id="payment-form">
+  <div id="card-errors" class="a" role="alert">
+    <!-- Error messages in this element -->
+  </div>
+  <hr class="my-4">
+  <h4 class="mb-3">Payment</h4>
+  <label for="card-element">Credit or debit card</label>
+  <div id="card-element" class="form-control form-control-payment">
+    <!-- Payment elements will appear here -->
+  </div>
+  <hr class="my-4">
+  <button id="submit" class="btn btn-primary w-100 fw-bold">Pay</button>
+</form>
+
+<hr>
+{% post_to_whatsapp object_or_url %}
+{% post_to_twitter object_or_url %}
+
+<script>
+  var STRIPE_PUBLISHABLE_KEY = '{{STRIPE_PUBLISHABLE_KEY}}'
+  var product_id = "{{product.id}}"
+  var CSRF_TOKEN = '{{ csrf_token }}';
+</script>
+<script src="https://js.stripe.com/v3/"></script>
+<script src="{% static 'payment/index.js' %}" data-rel-js></script>
+
+{% endblock %}

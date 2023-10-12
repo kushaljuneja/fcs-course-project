@@ -1,0 +1,41 @@
+{% extends "../../base.html" %}
+
+{% block content %}
+
+<div class="container">
+  <h1><strong>Dashboard : </strong>{{ user.user_name }}</h1>
+  <p><strong>Mail ID : </strong>{{ user.email }}</p>
+  <p><a href="{% url 'account:edit_user' user.id %}">Edit personal details</a></p>
+  <p><a href="{% url 'two_factor:profile' %}">Edit MFA details</a></p>
+  <div style="margin-left:20px;margin-top:20px">
+    <h2>Your Previous Orders</h2>
+    <hr />
+    <table class="table table-hover">
+      <thead>
+        <tr>
+          <th scope="col">Date</th>
+          <th scope="col">Photo</th>
+          <th scope="col">Item</th>
+          <th scope="col">Qty</th>
+          <th scope="col">Total Cost</th>
+          <th scope="col">Status</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for order in orders %}
+        <tr class="{% if order.billing_status %} table-success {% else %} table-danger {% endif %}">
+          <td>{{ order.created }} </td>
+          <td><img class="img-fluid" width="100px" height="100px" alt="Responsive image"
+              src="{{ order.product.image.url }}"></td>
+          <td><a class="text-decoration-none" href="{{ order.product.get_absolute_url }}">{{order.product|title}}</td>
+          <td>{{ order.quantity }}</td>
+          <td>&#8377 {{ order.total_paid }}</td>
+          <td>{% if order.billing_status %} Success {% else %} Failure {% endif %}</td>
+        </tr>
+        {% endfor%}
+      </tbody>
+    </table>
+  </div>
+</div>
+
+{% endblock content %}

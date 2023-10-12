@@ -1,0 +1,16 @@
+{% extends "../base.html" %} 
+{% load crispy_forms_tags %}
+{% block content %}
+
+<div class="container">
+    <form method="post" enctype="multipart/form-data">
+        <h1 class="h2">Add Product</h1>
+        {% csrf_token %}
+        {{ form|crispy }}
+        <script src='https://www.google.com/recaptcha/api.js'></script>
+<div class="g-recaptcha" data-sitekey="6LfrWOccAAAAAKkaZsdEo62zYqpAKm_T92G8YG04"></div>
+        <button type="submit">Add Product</button>
+      </form>
+</div>
+
+{% endblock %}
